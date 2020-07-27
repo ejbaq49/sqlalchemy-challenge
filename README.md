@@ -10,4 +10,4 @@
   * so much data (2000+) observations
   * customizing the x-axis ticks
 * TODO: "Use Pandas to calcualte the summary statistics for the precipitation data"
-* plot 2 doesn't quite look like the example
+* ~plot 2 doesn't quite look like the example~
