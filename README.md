@@ -9,5 +9,6 @@
 * don't understand 1st plot
   * so much data (2000+) observations
   * customizing the x-axis ticks
+  * after correcting, make necessary mods to app.py in this route "/api/v1.0/precipitation"
 * TODO: "Use Pandas to calcualte the summary statistics for the precipitation data"
 * ~plot 2 doesn't quite look like the example~
