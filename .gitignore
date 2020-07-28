@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# My test files
+scratch.py
+
 # Distribution / packaging
 .Python
 build/
