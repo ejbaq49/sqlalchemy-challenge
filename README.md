@@ -11,6 +11,7 @@
   * customizing the x-axis ticks
   * after correcting, make necessary mods to app.py in this route "/api/v1.0/precipitation"
   * change SUN to AVG in grouping to see if graph gets closer to instructions
+* correct the "/api/v1.0/stations" route to only return station names
 * TODO: "Use Pandas to calcualte the summary statistics for the precipitation data"
 * which queries needed the joins?
 * ~plot 2 doesn't quite look like the example~
