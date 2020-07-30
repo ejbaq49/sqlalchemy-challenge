@@ -46,8 +46,7 @@ def welcome():
 @app.route("/api/v1.0/precipitation")
 def get_last_year_precip():
     """ Return final year of precipitaion from dataset. """
-    
-    # open session for query
+     # open session for query
     session = Session(engine)
     # Perform a query to retrieve the data and precipitation scores
     last_12_precip = session.query(Measurement.date, Measurement.prcp).filter(Measurement.date >= '2016-08-23').\
@@ -58,7 +57,7 @@ def get_last_year_precip():
 
 @app.route("/api/v1.0/stations")
 def get_weather_stations():
-    """ Return list of weather stations """
+    """ Return a JSON list of active weather stations """
     # open session for query
     session = Session(engine)
     # Perform a query to retrieve stations that recorded measurements (use JOIN)
@@ -69,6 +68,8 @@ def get_weather_stations():
 
 @app.route("/api/v1.0/<start_date>")
 def get_temp_start(start_date):
+    """ Return a JSON list of the minimum temperature, the average temperature, 
+        and the max temperature for a given start date. """
     session = Session(engine)
     temp_from_start = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date >= start_date).all()
     session.close
@@ -77,6 +78,7 @@ def get_temp_start(start_date):
 
 @app.route("/api/v1.0/tobs")
 def get_temp_obs():
+    """ Query the dates and temperature observations of the most active station for the last year of data. """
     # Determine latest observation date for this station
     # most_active_latest_date = session.query(Measurement.date).order_by(Measurement.date.desc()).\
     #     filter(Measurement.station=="USC00519281").\
