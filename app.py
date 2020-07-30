@@ -38,8 +38,8 @@ def welcome():
         f"/api/v1.0/precipitation</br>"
         f"/api/v1.0/stations</br>"
         f"/api/v1.0/tobs</br>"
-        f"/api/v1.0/startdate</br>"
-        f"/api/v1.0/startdate/enddate</br>"
+        f"/api/v1.0/YYYY-MM-DD</br>"
+        f"/api/v1.0/YYYY-MM-DD/YYYY-MM-DD</br>"
     )
 
 @app.route("/api/v1.0/precipitation")
@@ -82,6 +82,15 @@ def get_weather_stations():
         station_list.append(station_dict)
 
     return jsonify(station_list)
+
+@app.route("/api/v1.0/<start_date>")
+def get_temp_start(start_date):
+    session = Session(engine)
+    temp_from_start = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date >= start_date).all()
+    session.close
+    return jsonify(temp_from_start)
+
+
 
 
 if __name__ == '__main__':
