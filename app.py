@@ -66,16 +66,6 @@ def get_weather_stations():
     session.close()
     return jsonify(station_result)
 
-@app.route("/api/v1.0/<start_date>")
-def get_temp_start(start_date):
-    """ Return a JSON list of the minimum temperature, the average temperature, 
-        and the max temperature for a given start date. """
-    session = Session(engine)
-    temp_from_start = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date >= start_date).all()
-    session.close
-    return jsonify(temp_from_start)
-
-
 @app.route("/api/v1.0/tobs")
 def get_temp_obs():
     """ Query the dates and temperature observations of the most active station for the last year of data. """
@@ -92,6 +82,37 @@ def get_temp_obs():
         filter(Measurement.station=='USC00519281').order_by(Measurement.date).all()
     session.close()
     return(jsonify(station_measures))
+
+@app.route("/api/v1.0/<start_date>")
+def get_temp_start(start_date):
+    """ Return a JSON list of the minimum temperature, the average temperature, 
+        and the max temperature for a given start date. """
+    session = Session(engine)
+    temp_stats_start = session.query(
+        Measurement.date,
+        func.min(Measurement.tobs).label('TMIN'),
+        func.avg(Measurement.tobs).label('TAVG'),
+        func.max(Measurement.tobs).label('TMAX')).\
+            group_by(Measurement.date).\
+            filter(Measurement.date >= start_date).all()
+    session.close()
+    return jsonify(temp_stats_start)
+
+@app.route("/api/v1.0/<start_date>/<end_date>")
+def get_temp_range(start_date, end_date):
+    """ Return a JSON list of the minimum temperature, the average temperature, 
+        and the max temperature for a given start date and end date """
+    session = Session(engine)
+    temp_stats_range = session.query(
+                Measurement.date,
+        func.min(Measurement.tobs).label('TMIN'),
+        func.avg(Measurement.tobs).label('TAVG'),
+        func.max(Measurement.tobs).label('TMAX')).\
+            group_by(Measurement.date).\
+            filter(Measurement.date >= start_date).\
+            filter(Measurement.date <= end_date).all()
+    session.close()
+    return(jsonify(temp_stats_range))
 
 if __name__ == '__main__':
     app.run(debug=True)
